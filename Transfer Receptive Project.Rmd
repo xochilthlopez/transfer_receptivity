@@ -1,0 +1,149 @@
+---
+title: "Transfer Receptivity Project"
+author: "David Chang"
+date: "2025-02-14"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+UCTE <- read.csv("/Users/djchang3/Downloads/Transfer Receptivity Project/UC Overall Transfer Enrollment.csv")
+
+UCTY <- read.csv("/User/djchang3/Downloads/Transfer Receptivity Project/UC Overall Transfer Yield.csv")
+```
+
+
+
+```{r}
+library(ggplot2)
+library(tidyr)
+
+# Reshape data to long format
+transfer_receptive_long <- UCTE %>%
+  pivot_longer(cols = -Year, names_to = "ethnicity", values_to = "admissions")
+
+# Create line graph
+ggplot(transfer_receptive_long, aes(x = Year, y = admissions, color = ethnicity, group = ethnicity)) +
+  geom_line(size = 1) + 
+  geom_point(size = 2) + 
+  labs(title = "UC Overall Enrollment by Ethnicity Over Time",
+       x = "Year",
+       y = "Number of Admits",
+       color = "Ethnicity") +
+  theme_minimal()
+```
+
+```{r}
+uctransferea <- read.csv("/Users/djchang3/Downloads/UC Transfer Admit and Enrollment.csv", fileEncoding = "UTF-8")
+
+uctransferea <- subset(uctransferea, Admit_Term_Fall >= 2014)
+```
+
+```{r}
+uctransferea %>%
+  ggplot() + 
+  geom_col(mapping = aes(x = Admit_Term_Fall, y = UCSC_Total_Transfer_Applications, fill = factor("Applicants")), position = "dodge") +
+  geom_col(mapping = aes(x = Admit_Term_Fall, y = UCSC_Total_Transfer_Admit, fill = factor("Admitted")), position = "dodge") +
+  geom_col(mapping = aes(x = Admit_Term_Fall, y = UCSC_Total_Transfer_Enrolled, fill = factor("Enrolled")), position = "dodge") +
+  labs(title = "UC Santa Cruz Applicants, Admits, and Enrollments (2014-2024)",
+       x = "Year",
+       y = "Count",
+       fill = "Status") +  
+  scale_fill_manual(values = c("Applicants" = "gold","Admitted" = "dodgerblue", "Enrolled" = "firebrick1")) +
+  theme_minimal()
+```
+
+```{r}
+library(tidyr)
+
+uctransferea_long <- uctransferea %>%
+  pivot_longer(cols = c(UCSC_Total_Transfer_Applications, UCSC_Total_Transfer_Admit, UCSC_Total_Transfer_Enrolled),
+               names_to = "Status", 
+               values_to = "Count")
+
+# Now plot the data in long format
+uctransferea_long %>%
+  ggplot(aes(x = Admit_Term_Fall, y = Count, fill = Status)) + 
+  geom_col(position = "dodge") + 
+  labs(title = "UC Santa Cruz Overall Applicants, Admitted, and Enrolled",
+       x = "Year",
+       y = "Count",
+       fill = "Status") +  
+  scale_fill_manual(values = c("UCSC_Total_Transfer_Applications" = "firebrick1", 
+                               "UCSC_Total_Transfer_Admit" = "dodgerblue",
+                              "UCSC_Total_Transfer_Enrolled" = "gold")) +
+  theme_minimal()
+```
+
+```{r}
+uctransferea_long <- uctransferea %>%
+  pivot_longer(cols = c(UCLA_Total_Transfer_Admit, UCLA_Total_Transfer_Enrolled),
+               names_to = "Status", 
+               values_to = "Count")
+uctransferea_long %>%
+  ggplot(aes(x = Admit_Term_Fall, y = Count, fill = Status)) + 
+  geom_col(position = "dodge") + 
+  labs(title = "UCLA Overall Admit and Enroll Over Time",
+       x = "Year",
+       y = "Count",
+       fill = "Status") +  
+  scale_fill_manual(values = c("UCLA_Total_Transfer_Admit" = "blue", 
+                               "UCLA_Total_Transfer_Enrolled" = "red")) +
+  theme_minimal()
+```
+
+```{r}
+uctransferea_long <- uctransferea %>%
+  pivot_longer(cols = c(UCI_Total_Transfer_Admit, UCI_Total_Transfer_Enrolled),
+               names_to = "Status", 
+               values_to = "Count")
+uctransferea_long %>%
+  ggplot(aes(x = Admit_Term_Fall, y = Count, fill = Status)) + 
+  geom_col(position = "dodge") + 
+  labs(title = "UC Irvine Overall Admit and Enroll Over Time",
+       x = "Year",
+       y = "Count",
+       fill = "Status") +  
+  scale_fill_manual(values = c("UCI_Total_Transfer_Admit" = "blue", 
+                               "UCI_Total_Transfer_Enrolled" = "red")) +
+  theme_minimal()
+```
+
+```{r}
+uctransferea_long <- uctransferea %>%
+  pivot_longer(cols = c(UCB_Total_Transfer_Admit, UCB_Total_Transfer_Enrolled),
+               names_to = "Status", 
+               values_to = "Count")
+uctransferea_long %>%
+  ggplot(aes(x = Admit_Term_Fall, y = Count, fill = Status)) + 
+  geom_col(position = "dodge") + 
+  labs(title = "UC Berkeley Overall Admit and Enroll Over Time",
+       x = "Year",
+       y = "Count",
+       fill = "Status") +  
+  scale_fill_manual(values = c("UCB_Total_Transfer_Admit" = "blue", 
+                               "UCB_Total_Transfer_Enrolled" = "red")) +
+  theme_minimal()
+```
+
+```{r}
+uctransferea_long <- uctransferea %>%
+  pivot_longer(cols = c(UCR_Total_Transfer_Admit, UCR_Total_Transfer_Enrolled),
+               names_to = "Status", 
+               values_to = "Count")
+uctransferea_long %>%
+  ggplot(aes(x = Admit_Term_Fall, y = Count, fill = Status)) + 
+  geom_col(position = "dodge") + 
+  labs(title = "UC Riverside Overall Admit and Enroll Over Time",
+       x = "Year",
+       y = "Count",
+       fill = "Status") +  
+  scale_fill_manual(values = c("UCR_Total_Transfer_Admit" = "blue", 
+                               "UCR_Total_Transfer_Enrolled" = "red")) +
+  theme_minimal()
+```
+
