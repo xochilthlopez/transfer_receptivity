@@ -9,6 +9,10 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r}
+#trying this
+```
+
 
 ```{r}
 UCTE <- read.csv("/Users/djchang3/Downloads/Transfer Receptivity Project/UC Overall Transfer Enrollment.csv")
